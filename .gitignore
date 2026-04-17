@@ -8,3 +8,5 @@ coverage/
 !.env.example
 test*.mjs
 test*.cjs
+.vercel
+.env*.local

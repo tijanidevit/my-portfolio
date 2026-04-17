@@ -1,22 +1,18 @@
-import express, { Request, Response } from 'express';
-import { createRequire } from 'module';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import 'dotenv/config';
 
-const require = createRequire(import.meta.url);
-const Brevo = require('@getbrevo/brevo');
+import Brevo from '@getbrevo/brevo';
 
-const app = express();
-app.use(express.json());
-
-const PORT = process.env.SERVER_PORT || 3001;
 const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
 const OWNER_EMAIL = process.env.OWNER_EMAIL || 'themustaphatijani@gmail.com';
 const OWNER_NAME = process.env.OWNER_NAME || 'Mustapha Tijani';
 
-// Configure API key authorization
-let apiInstance = new Brevo.TransactionalEmailsApi();
-let apiKey = apiInstance.authentications['apiKey'];
-apiKey.apiKey = BREVO_API_KEY;
+const apiInstance = new Brevo.TransactionalEmailsApi();
+
+// Set API key (modern & recommended way)
+if (BREVO_API_KEY) {
+  apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, BREVO_API_KEY);
+}
 
 interface ContactPayload {
   name: string;
@@ -26,8 +22,8 @@ interface ContactPayload {
 }
 
 function buildOwnerEmail(payload: ContactPayload) {
-  let sendSmtpEmail = new Brevo.SendSmtpEmail();
-  sendSmtpEmail.sender = { name: payload.name + ' (Portfolio)', email: OWNER_EMAIL };
+  const sendSmtpEmail = new Brevo.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: `${payload.name} (Portfolio)`, email: OWNER_EMAIL };
   sendSmtpEmail.to = [{ email: OWNER_EMAIL, name: OWNER_NAME }];
   sendSmtpEmail.replyTo = { email: payload.email, name: payload.name };
   sendSmtpEmail.subject = `[Portfolio] ${payload.subject}`;
@@ -82,7 +78,7 @@ function buildOwnerEmail(payload: ContactPayload) {
 }
 
 function buildSenderConfirmationEmail(payload: ContactPayload) {
-  let sendSmtpEmail = new Brevo.SendSmtpEmail();
+  const sendSmtpEmail = new Brevo.SendSmtpEmail();
   sendSmtpEmail.sender = { name: OWNER_NAME, email: OWNER_EMAIL };
   sendSmtpEmail.to = [{ email: payload.email, name: payload.name }];
   sendSmtpEmail.subject = `Thanks for reaching out, ${payload.name.split(' ')[0]}!`;
@@ -127,18 +123,20 @@ function buildSenderConfirmationEmail(payload: ContactPayload) {
   return sendSmtpEmail;
 }
 
-app.post('/api/contact', async (req: Request, res: Response) => {
-  const { name, email, subject, message } = req.body as ContactPayload;
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { name, email, subject, message } = req.body as Partial<ContactPayload>;
 
   if (!name || !email || !subject || !message) {
-    res.status(400).json({ error: 'All fields are required.' });
-    return;
+    return res.status(400).json({ error: 'All fields are required.' });
   }
 
   if (!BREVO_API_KEY) {
-    console.error('BREVO_API_KEY is not set.');
-    res.status(500).json({ error: 'Email service is not configured.' });
-    return;
+    console.error('BREVO_API_KEY is not configured');
+    return res.status(500).json({ error: 'Email service not configured.' });
   }
 
   try {
@@ -149,13 +147,9 @@ app.post('/api/contact', async (req: Request, res: Response) => {
       apiInstance.sendTransacEmail(buildSenderConfirmationEmail(payload)),
     ]);
 
-    res.status(200).json({ success: true, message: 'Message sent successfully!' });
-  } catch (err: unknown) {
-    console.error('Brevo send error:', err);
-    res.status(500).json({ error: 'Failed to send email. Please try again later.' });
+    return res.status(200).json({ success: true });
+  } catch (err: any) {
+    console.error('Brevo error:', err?.response?.data || err?.message || err);
+    return res.status(500).json({ error: 'Failed to send email' });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`API server running on http://localhost:${PORT}`);
-});
+}
