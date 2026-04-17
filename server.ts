@@ -1,6 +1,9 @@
 import express, { Request, Response } from 'express';
-import { BrevoClient } from '@getbrevo/brevo';
+import * as brevoModule from '@getbrevo/brevo';
 import 'dotenv/config';
+
+// Robustly resolve BrevoClient regardless of CJS/ESM interop differences
+const BrevoClient = brevoModule.BrevoClient || (brevoModule as any).default?.BrevoClient;
 
 const app = express();
 app.use(express.json());
