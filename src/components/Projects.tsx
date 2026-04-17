@@ -89,9 +89,6 @@ export default function Projects() {
               A collection of engineering systems and platforms I've designed and built.
             </p>
           </div>
-          <a href="https://github.com/tijanidevit" target="_blank" rel="noopener noreferrer" className="text-accent font-medium flex items-center gap-2 hover:underline">
-            View all on GitHub <ExternalLink size={16} />
-          </a>
         </motion.div>
 
         {/* Interactive Demo Section */}
@@ -147,13 +144,14 @@ export default function Projects() {
                 ))}
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onClick={() => handleBtnClick('case-study')}
-                  disabled={loadingBtn === 'case-study'}
+                <a 
+                  href={projects[0].link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full sm:w-auto px-6 py-3 bg-accent text-white rounded-xl font-bold hover:bg-accent/90 transition-all flex items-center justify-center gap-2 min-w-[160px]"
                 >
-                  {loadingBtn === 'case-study' ? <Loader2 className="animate-spin" size={18} /> : "Full Case Study"}
-                </button>
+                  Visit Website <ExternalLink size={18} />
+                </a>
                 <button 
                   onClick={() => handleBtnClick('docs')}
                   disabled={loadingBtn === 'docs'}
@@ -198,9 +196,9 @@ export default function Projects() {
             >
               <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="flex gap-3">
-                  <button className="p-2 glass rounded-full hover:bg-accent/10 transition-colors">
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 glass rounded-full hover:bg-accent/10 transition-colors inline-block text-foreground">
                     <ExternalLink size={18} />
-                  </button>
+                  </a>
                 </div>
               </div>
 
