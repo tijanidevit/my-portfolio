@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 const experiences = [
   {
     company: "Scandium Systems Inc.",
-    role: "Backend Engineer",
+    role: "Fullstack Engineer",
     period: "Dec 2023 - Present",
     description: "Designed a robust scheduling system, architected the TestPod backend, and developed AI-driven tools reducing QA technical troubleshooting by 40%.",
     achievements: [
@@ -16,7 +16,7 @@ const experiences = [
   },
   {
     company: "Routely Systems Ltd",
-    role: "Software Engineer",
+    role: "Fullstack Software Engineer",
     period: "Nov 2024 - Present",
     description: "Designed Internal Tooling architectures, built operational automations, and architected mobile application deployments.",
     achievements: [
@@ -41,7 +41,7 @@ const experiences = [
   },
   {
     company: "SellOff",
-    role: "PHP Developer",
+    role: "Fullstack PHP Developer",
     period: "Apr 2022 - Jul 2022",
     description: "Developed and maintained core PHP modules and integrated third-party RESTful APIs.",
     achievements: [

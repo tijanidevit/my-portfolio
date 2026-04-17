@@ -13,9 +13,10 @@ const projects = [
       "Queue-driven test execution system",
       "AI-powered web, mobile, and API test tools"
     ],
-    stack: ["Node.js", "TypeScript", "Laravel", "PostgreSQL", "Redis"],
+    stack: ["Node.js", "TypeScript", "Laravel", "PostgreSQL", "Redis", "React", "Tailwind"],
     icon: <Zap className="text-accent" size={24} />,
     color: "accent",
+    link: "https://getscandium.com",
     hasDemo: true
   },
   {
@@ -29,7 +30,8 @@ const projects = [
     ],
     stack: ["Node.js", "Python", "Redis", "Worker Processes"],
     icon: <Server className="text-accent-secondary" size={24} />,
-    color: "accent-secondary"
+    color: "accent-secondary",
+    link: "https://testpod.io",
   },
   {
     title: "AFSS ERP",
@@ -40,9 +42,10 @@ const projects = [
       "Modules for HR, Finance, and Procurement",
       "Scalable backend infrastructure"
     ],
-    stack: ["Laravel", "PHP", "PostgreSQL", "Multi-tenancy"],
+    stack: ["Laravel", "PHP", "PostgreSQL", "Multi-tenancy", "Next.js", "Tailwind"],
     icon: <Layers className="text-blue-500" size={24} />,
-    color: "blue-500"
+    color: "blue-500",
+    link: "https://afss-erp.com",
   },
   {
     title: "Routely",
@@ -53,9 +56,10 @@ const projects = [
       "Real-time tracking APIs",
       "Reduced delivery delays by 30%"
     ],
-    stack: ["Node.js", "REST APIs", "Redis", "PostgreSQL"],
+    stack: ["Node.js", "Next.js", "Tailwind", "REST APIs", "Redis", "PostgreSQL"],
     icon: <Database className="text-purple-500" size={24} />,
-    color: "purple-500"
+    color: "purple-500",
+    link: "https://routely.co",
   }
 ];
 
@@ -194,9 +198,6 @@ export default function Projects() {
             >
               <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="flex gap-3">
-                  <button className="p-2 glass rounded-full hover:bg-accent/10 transition-colors">
-                    <Github size={18} />
-                  </button>
                   <button className="p-2 glass rounded-full hover:bg-accent/10 transition-colors">
                     <ExternalLink size={18} />
                   </button>
