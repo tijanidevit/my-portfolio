@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express';
-import * as brevoModule from '@getbrevo/brevo';
+import { createRequire } from 'module';
 import 'dotenv/config';
 
-// Robustly resolve BrevoClient regardless of CJS/ESM interop differences
-const BrevoClient = brevoModule.BrevoClient || (brevoModule as any).default?.BrevoClient;
+// Robustly load CommonJS module using createRequire to bypass Vercel/tsx ESM bugs
+const require = createRequire(import.meta.url);
+const brevoPkg = require('@getbrevo/brevo');
+const BrevoClient = brevoPkg.BrevoClient;
 
 const app = express();
 app.use(express.json());
