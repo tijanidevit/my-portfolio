@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent-color);
+  --color-accent-secondary: var(--accent-secondary-color);
+  --color-border: var(--border-color);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent-color: #6366F1;
+  --accent-secondary-color: #22C55E;
+  --border-color: #e4e4e7;
+}
+
+.dark {
+  --background: #0B0B0F;
+  --foreground: #E4E4E7;
+  --card: #111117;
+  --card-foreground: #E4E4E7;
+  --muted: #1e1e24;
+  --muted-foreground: #A1A1AA;
+  --accent-color: #6366F1;
+  --accent-secondary-color: #22C55E;
+  --border-color: #27272a;
+}
+
+@layer base {
+  * {
+    border-color: var(--border-color);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  section {
+    scroll-margin-top: 80px;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--foreground);
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
