@@ -13,7 +13,7 @@
     "dev:all": "concurrently -n API,Vite -c cyan,magenta \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
-    "@getbrevo/brevo": "^3.0.0",
+    "@getbrevo/brevo": "^3.0.4",
     "@google/genai": "^1.29.0",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",

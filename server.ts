@@ -2,10 +2,8 @@ import express, { Request, Response } from 'express';
 import { createRequire } from 'module';
 import 'dotenv/config';
 
-// Robustly load CommonJS module using createRequire to bypass Vercel/tsx ESM bugs
 const require = createRequire(import.meta.url);
-const brevoPkg = require('@getbrevo/brevo');
-const BrevoClient = brevoPkg.BrevoClient;
+const Brevo = require('@getbrevo/brevo');
 
 const app = express();
 app.use(express.json());
@@ -15,8 +13,10 @@ const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
 const OWNER_EMAIL = process.env.OWNER_EMAIL || 'themustaphatijani@gmail.com';
 const OWNER_NAME = process.env.OWNER_NAME || 'Mustapha Tijani';
 
-// Initialise Brevo API client
-const brevoApi = new BrevoClient({ apiKey: BREVO_API_KEY });
+// Configure API key authorization
+let apiInstance = new Brevo.TransactionalEmailsApi();
+let apiKey = apiInstance.authentications['apiKey'];
+apiKey.apiKey = BREVO_API_KEY;
 
 interface ContactPayload {
   name: string;
@@ -26,12 +26,12 @@ interface ContactPayload {
 }
 
 function buildOwnerEmail(payload: ContactPayload) {
-  return {
-    sender: { name: payload.name + ' (Portfolio)', email: OWNER_EMAIL },
-    to: [{ email: OWNER_EMAIL, name: OWNER_NAME }],
-    replyTo: { email: payload.email, name: payload.name },
-    subject: `[Portfolio] ${payload.subject}`,
-    htmlContent: `
+  let sendSmtpEmail = new Brevo.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: payload.name + ' (Portfolio)', email: OWNER_EMAIL };
+  sendSmtpEmail.to = [{ email: OWNER_EMAIL, name: OWNER_NAME }];
+  sendSmtpEmail.replyTo = { email: payload.email, name: payload.name };
+  sendSmtpEmail.subject = `[Portfolio] ${payload.subject}`;
+  sendSmtpEmail.htmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -77,15 +77,16 @@ function buildOwnerEmail(payload: ContactPayload) {
         </div>
       </body>
     </html>
-  `};
+  `;
+  return sendSmtpEmail;
 }
 
 function buildSenderConfirmationEmail(payload: ContactPayload) {
-  return {
-    sender: { name: OWNER_NAME, email: OWNER_EMAIL },
-    to: [{ email: payload.email, name: payload.name }],
-    subject: `Thanks for reaching out, ${payload.name.split(' ')[0]}!`,
-    htmlContent: `
+  let sendSmtpEmail = new Brevo.SendSmtpEmail();
+  sendSmtpEmail.sender = { name: OWNER_NAME, email: OWNER_EMAIL };
+  sendSmtpEmail.to = [{ email: payload.email, name: payload.name }];
+  sendSmtpEmail.subject = `Thanks for reaching out, ${payload.name.split(' ')[0]}!`;
+  sendSmtpEmail.htmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -122,7 +123,8 @@ function buildSenderConfirmationEmail(payload: ContactPayload) {
         </div>
       </body>
     </html>
-  `};
+  `;
+  return sendSmtpEmail;
 }
 
 app.post('/api/contact', async (req: Request, res: Response) => {
@@ -143,8 +145,8 @@ app.post('/api/contact', async (req: Request, res: Response) => {
     const payload: ContactPayload = { name, email, subject, message };
 
     await Promise.all([
-      brevoApi.transactionalEmails.sendTransacEmail(buildOwnerEmail(payload)),
-      brevoApi.transactionalEmails.sendTransacEmail(buildSenderConfirmationEmail(payload)),
+      apiInstance.sendTransacEmail(buildOwnerEmail(payload)),
+      apiInstance.sendTransacEmail(buildSenderConfirmationEmail(payload)),
     ]);
 
     res.status(200).json({ success: true, message: 'Message sent successfully!' });
