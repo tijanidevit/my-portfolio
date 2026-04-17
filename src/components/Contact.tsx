@@ -100,10 +100,10 @@ export default function Contact() {
                 transition={{ delay: 0.4 }}
                 className="flex items-center gap-4 pt-4"
               >
-                <a href="#" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center hover:text-accent hover:border-accent transition-all">
+                <a href="https://github.com/tijanidevit" target="_blank" rel="noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center hover:text-accent hover:border-accent transition-all">
                   <Github size={18} className="sm:w-5 sm:h-5" />
                 </a>
-                <a href="#" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center hover:text-accent hover:border-accent transition-all">
+                <a href="https://www.linkedin.com/in/dev-mustapha-tijani/" target="_blank" rel="noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full glass flex items-center justify-center hover:text-accent hover:border-accent transition-all">
                   <Linkedin size={18} className="sm:w-5 sm:h-5" />
                 </a>
               </motion.div>

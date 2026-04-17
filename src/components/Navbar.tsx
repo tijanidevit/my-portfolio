@@ -65,10 +65,10 @@ export default function Navbar() {
               >
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="p-2 text-foreground/70 hover:text-accent transition-colors">
+              <a href="https://github.com/tijanidevit" target="_blank" rel="noreferrer" className="p-2 text-foreground/70 hover:text-accent transition-colors">
                 <Github size={18} />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="p-2 text-foreground/70 hover:text-accent transition-colors">
+              <a href="https://www.linkedin.com/in/dev-mustapha-tijani/" target="_blank" rel="noreferrer" className="p-2 text-foreground/70 hover:text-accent transition-colors">
                 <Linkedin size={18} />
               </a>
             </div>
@@ -117,10 +117,10 @@ export default function Navbar() {
                 ))}
                 <div className="h-px bg-border/50 my-2" />
                 <div className="flex gap-4">
-                  <a href="https://github.com" target="_blank" rel="noreferrer" className="flex-1 py-4 glass rounded-2xl flex items-center justify-center gap-3 text-sm font-bold shadow-md">
+                  <a href="https://github.com/tijanidevit" target="_blank" rel="noreferrer" className="flex-1 py-4 glass rounded-2xl flex items-center justify-center gap-3 text-sm font-bold shadow-md">
                     <Github size={20} /> GitHub
                   </a>
-                  <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="flex-1 py-4 glass rounded-2xl flex items-center justify-center gap-3 text-sm font-bold shadow-md">
+                  <a href="https://www.linkedin.com/in/dev-mustapha-tijani/" target="_blank" rel="noreferrer" className="flex-1 py-4 glass rounded-2xl flex items-center justify-center gap-3 text-sm font-bold shadow-md">
                     <Linkedin size={20} /> LinkedIn
                   </a>
                 </div>
